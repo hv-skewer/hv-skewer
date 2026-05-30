@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hv-skewer | Developer</title>
-    <!-- 使用更稳定的CDN链接 -->
+    <title>AAA WUNDER</title>
+    <!-- 网页图标 -->
+    <link rel="icon" type="image/png" href="title.PNG">
+    <!-- 更稳定的CDN链接 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@6.4.0/css/all.min.css">
     <style>
         * {
@@ -16,10 +18,11 @@
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             color: #ffffff;
-            overflow: hidden;
-            height: 100vh;
+            overflow-x: hidden;
+            min-height: 100vh;
             /* 视频加载失败时的备用背景 */
             background-color: #0a0a0a;
+            scroll-behavior: smooth;
         }
 
         /* 第一层：视频背景（最底层） */
@@ -30,8 +33,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -1;
-            /* 防止视频被拉伸变形 */
+            z-index: -2;
             object-position: center;
         }
 
@@ -48,36 +50,42 @@
                 rgba(0, 0, 0, 0.5) 50%,
                 rgba(0, 0, 0, 0.75) 100%
             );
-            z-index: 0;
+            z-index: -1;
+        }
+
+        /* 通用容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         /* 第三层：文字内容（最顶层） */
-        .content {
-            position: relative;
-            z-index: 1;
+        .hero {
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
-        .content h1 {
+        .hero h1 {
             font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            /* 绿色渐变文字 */
+            background: linear-gradient(90deg, #00ff88, #00cc66);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: fadeIn 1.5s ease-out;
-            /* 防止文字被选中 */
             user-select: none;
         }
 
-        .content p {
+        .hero .subtitle {
             font-size: clamp(1.2rem, 3vw, 1.8rem);
             color: #e0e0e0;
             margin-bottom: 3rem;
@@ -99,8 +107,155 @@
         }
 
         .social-links a:hover {
-            color: #00d4ff;
+            color: #00ff88;
             transform: translateY(-5px);
+        }
+
+        /* 个人介绍部分 */
+        .about {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            color: #00ff88;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff88, #00cc66);
+        }
+
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #d0d0d0;
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .university {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00ff88;
+            margin-bottom: 2rem;
+        }
+
+        /* 仓库导航部分 */
+        .projects {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00ff88;
+        }
+
+        .project-card p {
+            color: #b0b0b0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .project-card a {
+            color: #00ff88;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .project-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* 友链部分 */
+        .friends {
+            padding: 100px 0;
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .friend-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .friend-card:hover {
+            background-color: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .friend-card a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .friend-card a:hover {
+            color: #00ff88;
+        }
+
+        /* 页脚 */
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            color: #606060;
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         /* 简单的淡入动画 */
@@ -115,6 +270,18 @@
             }
         }
 
+        /* 滚动动画 */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .social-links {
@@ -123,6 +290,14 @@
             
             .social-links a {
                 font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -148,17 +323,103 @@
     <!-- 第二层：蒙版 -->
     <div class="overlay"></div>
 
-    <!-- 第三层：文字内容（已替换为hv-skewer） -->
-    <div class="content">
-        <h1>Hi, I'm hv-skewer</h1>
-        <p>Developer | Creator | Thinker</p>
-        <div class="social-links">
-            <a href="https://github.com/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com/in/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-            <a href="https://twitter.com/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-            <a href="mailto:hv-skewer@example.com"><i class="fas fa-envelope"></i></a>
+    <!-- 第三层：文字内容 -->
+    <!-- Hero部分 -->
+    <section class="hero">
+        <div class="container">
+            <h1>AAA WUNDER</h1>
+            <p class="subtitle">只会敲斜杠的青年 / 鬼点子多多 / 请输入文本 / 爱好摄影 / 视频剪辑</p>
+            <div class="social-links">
+                <a href="https://github.com/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://twitter.com/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                <a href="mailto:hv-skewer@example.com"><i class="fas fa-envelope"></i></a>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- 个人介绍部分 -->
+    <section class="about scroll-animate">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="university">北京大学 应用物理学</div>
+                <p>一个对世界充满好奇心的人，喜欢用代码解决实际问题，用镜头记录生活中的美好瞬间。</p>
+                <p>在物理的世界里探索宇宙的奥秘，在代码的世界里创造无限可能。相信技术可以改变世界，也相信每一个小小的想法都有巨大的潜力。</p>
+                <p>业余时间喜欢摄影和视频剪辑，用影像讲述故事。如果你有有趣的项目或者想法，欢迎和我交流！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 仓库导航部分 -->
+    <section class="projects scroll-animate">
+        <div class="container">
+            <h2 class="section-title">我的项目</h2>
+            <div class="projects-grid">
+                <!-- 项目1 -->
+                <div class="project-card">
+                    <h3>项目名称 1</h3>
+                    <p>这是一个关于物理模拟的项目，使用Python实现了一些经典的物理现象模拟。</p>
+                    <a href="https://github.com/hv-skewer/project1" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> 查看代码
+                    </a>
+                </div>
+
+                <!-- 项目2 -->
+                <div class="project-card">
+                    <h3>项目名称 2</h3>
+                    <p>一个基于Web的图像处理工具，可以在线对图片进行各种编辑和处理。</p>
+                    <a href="https://github.com/hv-skewer/project2" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> 查看代码
+                    </a>
+                </div>
+
+                <!-- 项目3 -->
+                <div class="project-card">
+                    <h3>项目名称 3</h3>
+                    <p>一个个人博客系统，使用Markdown编写文章，支持代码高亮和数学公式。</p>
+                    <a href="https://github.com/hv-skewer/project3" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> 查看代码
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 友链部分 -->
+    <section class="friends scroll-animate">
+        <div class="container">
+            <h2 class="section-title">友情链接</h2>
+            <div class="friends-grid">
+                <!-- 友链1 -->
+                <div class="friend-card">
+                    <a href="https://example1.com" target="_blank" rel="noopener noreferrer">朋友1的博客</a>
+                </div>
+
+                <!-- 友链2 -->
+                <div class="friend-card">
+                    <a href="https://example2.com" target="_blank" rel="noopener noreferrer">朋友2的主页</a>
+                </div>
+
+                <!-- 友链3 -->
+                <div class="friend-card">
+                    <a href="https://example3.com" target="_blank" rel="noopener noreferrer">朋友3的项目</a>
+                </div>
+
+                <!-- 友链4 -->
+                <div class="friend-card">
+                    <a href="https://example4.com" target="_blank" rel="noopener noreferrer">朋友4的网站</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 AAA WUNDER. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         // 确保视频在所有浏览器中都能自动播放
@@ -166,6 +427,24 @@
             const video = document.querySelector('.video-background');
             video.play().catch(function(error) {
                 console.log('视频自动播放被阻止:', error);
+            });
+
+            // 滚动动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
             });
         });
     </script>
