@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的个人主页</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+      }
+      .container {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 48px 20px 64px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 2rem;
+      }
+      h2 {
+        margin: 28px 0 12px;
+        font-size: 1.2rem;
+      }
+      p,
+      li {
+        line-height: 1.7;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .links {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+      a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      @media (max-width: 640px) {
+        .card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <h1>你好，我是 hv-skewer 👋</h1>
+        <p>欢迎来到我的个人主页，这里记录了我的技能、项目和联系方式。</p>
+
+        <h2>关于我</h2>
+        <p>我热爱编程，喜欢用简洁可靠的方式解决实际问题，持续学习前端与后端开发技术。</p>
+
+        <h2>技能</h2>
+        <ul>
+          <li>前端：HTML / CSS / JavaScript</li>
+          <li>后端：Node.js / Python</li>
+          <li>工具：Git / Linux / Docker</li>
+        </ul>
+
+        <h2>项目</h2>
+        <ul>
+          <li><strong>个人博客</strong>：分享技术笔记和学习总结。</li>
+          <li><strong>效率工具</strong>：用于日常任务管理的轻量 Web 应用。</li>
+        </ul>
+
+        <h2>联系我</h2>
+        <div class="links">
+          <a href="mailto:hello@example.com">邮箱</a>
+          <a href="https://github.com/hv-skewer" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
