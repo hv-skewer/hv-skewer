@@ -111,7 +111,7 @@
             transform: translateY(-5px);
         }
 
-        /* 个人介绍部分 */
+        /* 个人介绍部分 - 重构后 */
         .about {
             padding: 100px 0;
             position: relative;
@@ -138,24 +138,109 @@
             background: linear-gradient(90deg, #00ff88, #00cc66);
         }
 
-        .about-content {
-            text-align: center;
-            max-width: 800px;
+        /* 介绍卡片容器 */
+        .about-cards-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1000px;
             margin: 0 auto;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #d0d0d0;
+            overflow: hidden;
+            position: relative;
+            height: auto;
+            transition: all 0.5s ease;
         }
 
-        .about-content p {
-            margin-bottom: 1.5rem;
+        /* 基础卡片样式 */
+        .about-card {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 0;
         }
 
-        .university {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .about-card:hover {
+            background-color: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .about-card h3 {
             color: #00ff88;
-            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .about-card .card-brief {
+            color: #d0d0d0;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* 展开状态样式 */
+        .about-card.expanded {
+            flex: 100; /* 占据全部宽度 */
+            padding: 40px 30px;
+            transform: translateY(0);
+        }
+
+        .about-card.collapsed {
+            flex: 0; /* 收起其他卡片 */
+            opacity: 0;
+            pointer-events: none;
+            padding: 0;
+        }
+
+        /* 展开后的详细内容 */
+        .card-detail {
+            display: none;
+            width: 100%;
+            margin-top: 20px;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-card.expanded .card-detail {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* 收起按钮 */
+        .collapse-btn {
+            margin-top: 25px;
+            padding: 8px 20px;
+            background: linear-gradient(90deg, #00ff88, #00cc66);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .about-card.expanded .collapse-btn {
+            display: inline-block;
+        }
+
+        .collapse-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
         }
 
         /* 仓库导航部分 */
@@ -299,6 +384,20 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* 移动端适配介绍卡片 */
+            .about-cards-container {
+                flex-direction: column;
+            }
+
+            .about-card.expanded {
+                flex: none;
+                width: 100%;
+            }
+
+            .about-card.collapsed {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -327,8 +426,8 @@
     <!-- Hero部分 -->
     <section class="hero">
         <div class="container">
-            <h1>AAA WUNDER</h1>
-            <p class="subtitle">只会敲斜杠的青年 / 鬼点子多多 / 请输入文本 / 爱好摄影 / 视频剪辑</p>
+            <h1>WELCOME TO AAA WUNDER(奇迹号)</h1>
+            <p class="subtitle">应用物理学|通信|视频创作|公众号运营|摄影|心理学|哲学</p>
             <div class="social-links">
                 <a href="https://github.com/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                 <a href="https://linkedin.com/in/hv-skewer" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
@@ -338,15 +437,61 @@
         </div>
     </section>
 
-    <!-- 个人介绍部分 -->
+    <!-- 个人介绍部分 - 重构后 -->
     <section class="about scroll-animate">
         <div class="container">
             <h2 class="section-title">关于我</h2>
-            <div class="about-content">
-                <div class="university">北京大学 应用物理学</div>
-                <p>一个对世界充满好奇心的人，喜欢用代码解决实际问题，用镜头记录生活中的美好瞬间。</p>
-                <p>在物理的世界里探索宇宙的奥秘，在代码的世界里创造无限可能。相信技术可以改变世界，也相信每一个小小的想法都有巨大的潜力。</p>
-                <p>业余时间喜欢摄影和视频剪辑，用影像讲述故事。如果你有有趣的项目或者想法，欢迎和我交流！</p>
+            <!-- 介绍卡片容器 -->
+            <div class="about-cards-container">
+                <!-- 卡片1：我的个人介绍 -->
+                <div class="about-card" data-card="intro">
+                    <h3>我的个人介绍</h3>
+                    <p class="card-brief">点击查看我的教育背景、兴趣方向...</p>
+                    <div class="card-detail">
+                        <h4 style="color: #00ff88; margin-bottom: 15px;">基本信息</h4>
+                        <p>北京大学应用物理学专业，长期专注于物理与信息技术的交叉领域研究。</p>
+                        <p>核心兴趣：量子通信、计算物理、AI+科学研究的落地应用，同时热爱视觉创作（摄影/视频剪辑）、内容运营（公众号/自媒体）。</p>
+                        <p>性格特质：好奇心驱动型，喜欢拆解复杂问题、跨界融合不同领域的知识，相信「技术+人文」的结合能创造更多可能性。</p>
+                        <p>日常状态：一半时间泡在实验室/代码里，一半时间拿着相机记录生活，偶尔写写心理学/哲学相关的随笔。</p>
+                    </div>
+                    <button class="collapse-btn">收起</button>
+                </div>
+
+                <!-- 卡片2：什么是AAA WUNDER -->
+                <div class="about-card" data-card="wunder">
+                    <h3>什么是AAA WUNDER</h3>
+                    <p class="card-brief">点击了解「奇迹号」的由来...</p>
+                    <div class="card-detail">
+                        <h4 style="color: #00ff88; margin-bottom: 15px;">名称释义</h4>
+                        <p>「WUNDER」是德语中「奇迹」的意思，对应中文的「奇迹号」，是我对自己创作/研究项目的总称。</p>
+                        <p>「AAA」并非简单的字母前缀，而是「Ambitious + Accurate + Artistic」的缩写：</p>
+                        <ul style="margin: 10px 0 20px 20px; list-style: disc;">
+                            <li>Ambitious：保持野心，敢于探索跨领域的前沿方向</li>
+                            <li>Accurate：物理人的底色，追求精准、可验证的结果</li>
+                            <li>Artistic：不局限于理性，用艺术的视角看待技术与生活</li>
+                        </ul>
+                        <p>「AAA WUNDER」整体代表：以严谨的态度追求有野心的目标，同时赋予其艺术的温度。（以上都是AI的扯淡，我晚点再补充）</p>
+                    </div>
+                    <button class="collapse-btn">收起</button>
+                </div>
+
+                <!-- 卡片3：我的各种别称 -->
+                <div class="about-card" data-card="nicknames">
+                    <h3>我的各种别称</h3>
+                    <p class="card-brief">在多元宇宙中的不同形态</p>
+                    <div class="card-detail">
+                        <h4 style="color: #00ff88; margin-bottom: 15px;">昵称清单</h4>
+                        <ul style="margin: 10px 0 20px 20px; list-style: disc;">
+                            <li><strong>Wu Yiran</strong>：在线下的常见形态。</li>
+                            <li><strong>Nelson Wu</strong>：正在考虑的英文名。Nelson寓意：Through perseverance and hard work。在温莎城堡取得了一个Nelson的骑士团纹章。</li>
+                            <li><strong>MarbleVessel</strong>：在MineCraft,PUBG,Bilibili,NTE中的形态。该名称化自石舫。石舫是我的精神自留地。</li>
+                            <li><strong>looming skewer or hv-skewer</strong>：skewer化自高中外号“签总”。looming取自钟锡华《现代光学基础》，意为“幻象”。hv是光的能量。</li>
+                            <li><strong>Youyou</strong>：小名。取“无忧”之意，寄托无忧无虑，天天开心的祝愿。</li>
+                        </ul>
+                        <p>hehe</p>
+                    </div>
+                    <button class="collapse-btn">收起</button>
+                </div>
             </div>
         </div>
     </section>
@@ -358,27 +503,27 @@
             <div class="projects-grid">
                 <!-- 项目1 -->
                 <div class="project-card">
-                    <h3>项目名称 1</h3>
-                    <p>这是一个关于物理模拟的项目，使用Python实现了一些经典的物理现象模拟。</p>
-                    <a href="https://github.com/hv-skewer/project1" target="_blank" rel="noopener noreferrer">
+                    <h3>LLM Scholar Engine(WASTED)</h3>
+                    <p>一个类perplexity架构的自动搜索文献建库，并进行调研的AI问答引擎。</p>
+                    <a href="https://github.com/hv-skewer/LLM_scholar_engine" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-github"></i> 查看代码
                     </a>
                 </div>
 
                 <!-- 项目2 -->
                 <div class="project-card">
-                    <h3>项目名称 2</h3>
-                    <p>一个基于Web的图像处理工具，可以在线对图片进行各种编辑和处理。</p>
-                    <a href="https://github.com/hv-skewer/project2" target="_blank" rel="noopener noreferrer">
+                    <h3>WEREST"微闲"</h3>
+                    <p>能够自动化获取并整理微信消息，提升信息获取效率，有效应对信息过载的AI工具。目前正在开发中</p>
+                    <a href="https://github.com/hv-skewer/WXAL" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-github"></i> 查看代码
                     </a>
                 </div>
 
                 <!-- 项目3 -->
                 <div class="project-card">
-                    <h3>项目名称 3</h3>
-                    <p>一个个人博客系统，使用Markdown编写文章，支持代码高亮和数学公式。</p>
-                    <a href="https://github.com/hv-skewer/project3" target="_blank" rel="noopener noreferrer">
+                    <h3>personal-museum-demo</h3>
+                    <p>一个线上共享相册。将家中有价值的物品以花里胡哨的摄影技巧和UI进行展示</p>
+                    <a href="https://github.com/hv-skewer/personal-museum-demo" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-github"></i> 查看代码
                     </a>
                 </div>
@@ -398,17 +543,17 @@
 
                 <!-- 友链2 -->
                 <div class="friend-card">
-                    <a href="https://example2.com" target="_blank" rel="noopener noreferrer">朋友2的主页</a>
+                    <a href="https://heguangxie.github.io/birthday-20/" target="_blank" rel="noopener noreferrer">六必居酱瓜的生日主页</a>
                 </div>
 
                 <!-- 友链3 -->
                 <div class="friend-card">
-                    <a href="https://example3.com" target="_blank" rel="noopener noreferrer">朋友3的项目</a>
+                    <a href="https://example3.com" target="_blank" rel="noopener noreferrer">广告位招商</a>
                 </div>
 
                 <!-- 友链4 -->
                 <div class="friend-card">
-                    <a href="https://example4.com" target="_blank" rel="noopener noreferrer">朋友4的网站</a>
+                    <a href="https://example4.com" target="_blank" rel="noopener noreferrer">广告位招商</a>
                 </div>
             </div>
         </div>
@@ -445,6 +590,60 @@
 
             document.querySelectorAll('.scroll-animate').forEach(el => {
                 observer.observe(el);
+            });
+
+            // 介绍卡片展开/收起逻辑
+            const aboutCards = document.querySelectorAll('.about-card');
+            const cardsContainer = document.querySelector('.about-cards-container');
+            let activeCard = null; // 记录当前展开的卡片
+
+            // 展开卡片函数
+            function expandCard(card) {
+                // 重置所有卡片状态
+                aboutCards.forEach(c => {
+                    c.classList.remove('expanded');
+                    c.classList.remove('collapsed');
+                });
+                // 展开目标卡片，收起其他
+                card.classList.add('expanded');
+                aboutCards.forEach(c => {
+                    if (c !== card) {
+                        c.classList.add('collapsed');
+                    }
+                });
+                activeCard = card;
+            }
+
+            // 收起卡片函数
+            function collapseCard() {
+                aboutCards.forEach(c => {
+                    c.classList.remove('expanded');
+                    c.classList.remove('collapsed');
+                });
+                activeCard = null;
+            }
+
+            // 绑定卡片点击事件
+            aboutCards.forEach(card => {
+                // 卡片主体点击展开
+                card.addEventListener('click', (e) => {
+                    // 排除点击收起按钮的情况
+                    if (e.target.classList.contains('collapse-btn')) return;
+                    // 如果点击的是已展开的卡片，不重复操作
+                    if (activeCard === card) return;
+                    expandCard(card);
+                });
+
+                // 收起按钮点击事件
+                const collapseBtn = card.querySelector('.collapse-btn');
+                collapseBtn.addEventListener('click', collapseCard);
+            });
+
+            // 响应式适配：窗口大小变化时重置卡片状态
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768 && activeCard) {
+                    collapseCard();
+                }
             });
         });
     </script>
